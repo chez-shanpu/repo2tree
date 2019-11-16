@@ -17,32 +17,32 @@ func FileClassifier(fileName string) int {
 		return 1
 	}
 	// Matching Makefiles
-	r = regexp.MustCompile(`Makefile`)
+	r = regexp.MustCompile(`^Makefile$`)
 	if (r.MatchString(fileName)) {
 		return 2
 	}
 	// Matching Dockerfiles
-	r = regexp.MustCompile(`Makefile`)
+	r = regexp.MustCompile(`^Dockerfile$`)
 	if (r.MatchString(fileName)) {
 		return 3
 	}
 	// Matching Configfiles
-	r = regexp.MustCompile(`.*\.(env)|(cfg)$`)
+	r = regexp.MustCompile(`.*\.(env|cfg)$`)
 	if (r.MatchString(fileName)) {
 		return 4
 	}
 	// Matching Staticfiles
-	r = regexp.MustCompile(`.*\.(html)|(css)|(scss)$`)
+	r = regexp.MustCompile(`.*\.(html|css|scss)$`)
 	if (r.MatchString(fileName)) {
 		return 5
 	}
 	// Matching Documents
-	r = regexp.MustCompile(`.*\.(md)|(txt)$`)
+	r = regexp.MustCompile(`.*\.(md|txt)$`)
 	if (r.MatchString(fileName)) {
 		return 6
 	}
-	// Matching Pictures
-	r = regexp.MustCompile(`.*\.(jpeg)|(jpg)|(png)|(svc)$`)
+	// Matching Images
+	r = regexp.MustCompile(`.*\.(jpeg|jpg|png|svc)$`)
 	if (r.MatchString(fileName)) {
 		return 7
 	}
