@@ -2,9 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"github.com/chez-shanpu/repo2tree/src/model"
 	"log"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -16,6 +18,10 @@ func main() {
 	var outputName string
 	var rootNode *model.Node
 
+	flag.StringVar(&repoRootPath, "p", "", "path to repository")
+	flag.StringVar(&language, "l", "", "repository's programming language")
+	flag.StringVar(&outputName, "o", "", "output file name")
+
 	createdDate = time.Now().String()
 	treeRoot := []string{repoRootPath}
 	rootNode = MakeLayer(treeRoot, 1, nil)
@@ -25,6 +31,7 @@ func main() {
 		Language:       language,
 		CreatedDate:    createdDate,
 	}
+	_, outputName = filepath.Split(repoRootPath)
 	outputJson(outputName, nodeInfo)
 	log.Printf("Output to %v completed", outputName)
 }
