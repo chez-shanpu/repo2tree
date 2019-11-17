@@ -5,23 +5,25 @@ import (
 	"github.com/chez-shanpu/repo2tree/src/model"
 	"log"
 	"os"
+	"time"
 )
 
 func main() {
 	var repoRootPath string
 	var repositoryName string
 	var language string
-	var getDate string
+	var createdDate string
 	var outputName string
 	var rootNode *model.Node
 
+	createdDate = time.Now().String()
 	treeRoot := []string{repoRootPath}
 	rootNode = MakeLayer(treeRoot, 1, nil)
 	nodeInfo := model.NodeInfo{
 		RootNode:       rootNode,
 		RepositoryName: repositoryName,
 		Language:       language,
-		GetDate:        getDate,
+		CreatedDate:    createdDate,
 	}
 	outputJson(outputName, nodeInfo)
 	log.Printf("Output to %v completed", outputName)

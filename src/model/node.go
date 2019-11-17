@@ -10,5 +10,5 @@ type NodeInfo struct {
 	RootNode       *Node  `json:"root_node"`
 	RepositoryName string `json:"repository_name"`
 	Language       string `json:"language"`
-	GetDate        string `json:"get_date"`
+	CreatedDate        string `json:"created_date"`
 }
