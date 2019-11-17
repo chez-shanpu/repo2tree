@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"github.com/chez-shanpu/repo2tree/src/model"
+	"github.com/chez-shanpu/repo2tree/model"
 	"log"
 	"os"
 	"path/filepath"
