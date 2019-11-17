@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/chez-shanpu/repo2tree/src/model"
+	"github.com/chez-shanpu/repo2tree/model"
 	"io/ioutil"
 	"log"
 	"math"
