@@ -1,7 +1,7 @@
 package model
 
 type Node struct {
-	Data      [10]float64
+	Data      [9]float64
 	NextNode  *Node
 	ChildNode *Node
 }
