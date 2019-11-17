@@ -21,8 +21,14 @@ func main() {
 	flag.StringVar(&repoRootPath, "p", "", "path to repository")
 	flag.StringVar(&language, "l", "", "repository's programming language")
 	flag.StringVar(&outputName, "o", "", "output file name")
+	flag.Parse()
+	log.Printf("repoRootPath is %v", repoRootPath)
+	log.Printf("language is %v", language)
+	log.Printf("outputName is %v", outputName)
 
 	createdDate = time.Now().String()
+	_, repositoryName = filepath.Split(repoRootPath)
+
 	treeRoot := []string{repoRootPath}
 	rootNode = MakeLayer(treeRoot, 1, nil)
 	nodeInfo := model.NodeInfo{
@@ -31,7 +37,6 @@ func main() {
 		Language:       language,
 		CreatedDate:    createdDate,
 	}
-	_, outputName = filepath.Split(repoRootPath)
 	outputJson(outputName, nodeInfo)
 	log.Printf("Output to %v completed", outputName)
 }

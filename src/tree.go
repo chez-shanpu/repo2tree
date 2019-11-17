@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/chez-shanpu/repo2tree/src/model"
 	"io/ioutil"
+	"log"
 	"math"
 	"path/filepath"
 )
@@ -27,10 +28,11 @@ func makeNode(dirPath string, depth int, parentNode *model.Node) *model.Node {
 	var nodeDataIndex int
 	var subDirPaths []string
 
+	_, node.DirectoryName = filepath.Split(dirPath)
 	node.Data = [9]float64{0, 0, 0, 0, 0, 0, 0, 0, 0}
 	files, err := ioutil.ReadDir(dirPath)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	for _, file := range files {
 		if file.IsDir() {
@@ -43,7 +45,11 @@ func makeNode(dirPath string, depth int, parentNode *model.Node) *model.Node {
 		}
 	}
 	for key := range node.Data {
-		node.Data[key] = node.Data[key]/float64(depth) + parentNode.Data[key]
+		if parentNode == nil {
+			node.Data[key] = node.Data[key] / float64(depth)
+		} else {
+			node.Data[key] = node.Data[key]/float64(depth) + parentNode.Data[key]
+		}
 	}
 	if subDirPaths != nil {
 		node.ChildNode = MakeLayer(subDirPaths, depth+1, &node)

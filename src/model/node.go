@@ -2,6 +2,7 @@ package model
 
 type Node struct {
 	Data      [9]float64 `json:"data"`
+	DirectoryName string `json:"directory_name"`
 	NextNode  *Node      `json:"next_node"`
 	ChildNode *Node      `json:"child_node"`
 }
