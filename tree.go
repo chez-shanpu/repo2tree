@@ -4,11 +4,11 @@ import (
 	"github.com/chez-shanpu/repo2tree/model"
 	"io/ioutil"
 	"log"
-	"math"
 	"path/filepath"
 )
 
 func MakeLayer(dirPaths []string, depth int, parentNode *model.Node) *model.Node {
+	var rightmostNode *model.Node
 	var leftmostNode *model.Node
 	var targetNode *model.Node
 
@@ -17,8 +17,9 @@ func MakeLayer(dirPaths []string, depth int, parentNode *model.Node) *model.Node
 		if leftmostNode == nil {
 			leftmostNode = targetNode
 		} else {
-			leftmostNode = insertNode(leftmostNode, targetNode)
+			rightmostNode.NextNode = targetNode
 		}
+		rightmostNode = targetNode
 	}
 	return leftmostNode
 }
@@ -55,36 +56,4 @@ func makeNode(dirPath string, depth int, parentNode *model.Node) *model.Node {
 		node.ChildNode = MakeLayer(subDirPaths, depth+1, &node)
 	}
 	return &node
-}
-
-func insertNode(leftmostNode *model.Node, targetNode *model.Node) *model.Node {
-	var targetNodeValue float64
-	var nextNodeValue float64
-	var leftmostNodeValue float64
-	var node *model.Node
-
-	for key, val := range targetNode.Data {
-		targetNodeValue += math.Pow(val, math.Pow(10, float64(key)))
-	}
-	for key, val := range leftmostNode.Data {
-		leftmostNodeValue += math.Pow(val, math.Pow(10, float64(key)))
-	}
-
-	if targetNodeValue < leftmostNodeValue {
-		targetNode.NextNode = leftmostNode
-		leftmostNode = targetNode
-		return leftmostNode
-	}
-	for node = leftmostNode; node.NextNode != nil; node = node.NextNode {
-		for key, val := range node.NextNode.Data {
-			nextNodeValue += math.Pow(val, math.Pow(10, float64(key)))
-		}
-		if targetNodeValue < nextNodeValue {
-			targetNode.NextNode = node.NextNode
-			node.NextNode = targetNode
-			return leftmostNode
-		}
-	}
-	node.NextNode = targetNode
-	return leftmostNode
 }
