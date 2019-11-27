@@ -5,48 +5,37 @@ import (
 	"regexp"
 )
 
+var (
+	SourceRegex     = regexp.MustCompile(`.*\.go$`)
+	ShellRegex      = regexp.MustCompile(`.*\.sh$`)
+	MakefileRegex   = regexp.MustCompile(`^Makefile$`)
+	DockerfileRegex = regexp.MustCompile(`^Dockerfile$`)
+	ConfigfileRegex = regexp.MustCompile(`.*\.(env|cfg)$`)
+	StaticfileRegex = regexp.MustCompile(`.*\.(html|css|scss)$`)
+	DocumentsRegex  = regexp.MustCompile(`.*\.(md|txt)$`)
+	ImageRegex      = regexp.MustCompile(`.*\.(jpeg|jpg|png|svc)$`)
+)
+
 func FileClassifier(fileName string) int {
-	// Matching Sourcefiles
-	r := regexp.MustCompile(`.*\.go$`)
-	if (r.MatchString(fileName)) {
+	switch {
+	case SourceRegex.MatchString(fileName): // Matching Sourcefiles
 		return 0
-	}
-	// Matching Shellscripts
-	r = regexp.MustCompile(`.*\.sh$`)
-	if (r.MatchString(fileName)) {
+	case ShellRegex.MatchString(fileName): // Matching Shellscripts
 		return 1
-	}
-	// Matching Makefiles
-	r = regexp.MustCompile(`^Makefile$`)
-	if (r.MatchString(fileName)) {
+	case MakefileRegex.MatchString(fileName): // Matching Makefiles
 		return 2
-	}
-	// Matching Dockerfiles
-	r = regexp.MustCompile(`^Dockerfile$`)
-	if (r.MatchString(fileName)) {
+	case DockerfileRegex.MatchString(fileName): // Matching Dockerfiles
 		return 3
-	}
-	// Matching Configfiles
-	r = regexp.MustCompile(`.*\.(env|cfg)$`)
-	if (r.MatchString(fileName)) {
+	case ConfigfileRegex.MatchString(fileName): // Matching Configfiles
 		return 4
-	}
-	// Matching Staticfiles
-	r = regexp.MustCompile(`.*\.(html|css|scss)$`)
-	if (r.MatchString(fileName)) {
+	case StaticfileRegex.MatchString(fileName): // Matching Staticfiles
 		return 5
-	}
-	// Matching Documents
-	r = regexp.MustCompile(`.*\.(md|txt)$`)
-	if (r.MatchString(fileName)) {
+	case DocumentsRegex.MatchString(fileName): // Matching Documents
 		return 6
-	}
-	// Matching Images
-	r = regexp.MustCompile(`.*\.(jpeg|jpg|png|svc)$`)
-	if (r.MatchString(fileName)) {
+	case ImageRegex.MatchString(fileName): // Matching Images
 		return 7
+	default: // Others
+		log.Println(fileName + " is classified as a others.")
+		return 8
 	}
-	// Others
-	log.Println(fileName + " is classified as a others.")
-	return 8
 }
